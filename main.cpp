@@ -51,7 +51,6 @@ bool systemInit(double w_rate)
     }
     
     window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
-//    s = SDL_GetWindowSurface(window);
     render = SDL_CreateRenderer(window, -1, 0);
     
     return true;
@@ -62,8 +61,6 @@ bool systemInit(double w_rate)
 bool update()
 {
     SDL_Event Qevnts;
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    SDL_RenderClear(render);
     if(SDL_PollEvent(&Qevnts))
     {
         
@@ -80,7 +77,12 @@ bool update()
             default: break;
         }
     }
-    
+    //レンダリングの結果を画面に反映する
+    SDL_RenderPresent(render);
+    //描画操作(長方形, 直線, 消去)で使う色を設定する
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    //レンダリングの結果を画面に反映する
+    SDL_RenderClear(render);
     //フレームレート調整
     
     return true;
@@ -105,12 +107,14 @@ void  create()
 int main( int argc, char* args[] )
 {
     if(systemInit(1.0) == false){SDL_Quit();return 0;};
-    printf("asdfasdf");
-    
+
     while(update())
     {
+        // 描画操作(長方形, 直線, 消去)で使う色を得る
         SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
-        SDL_RenderPresent(render);
+        
+        SDL_RenderDrawLine(render,10, 10, 400, 400);
+        
     }
     
     SDL_Quit();
