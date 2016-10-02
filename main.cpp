@@ -110,7 +110,6 @@ int main( int argc, char* args[] )
     while(update())
     {
         SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
-        SDL_RenderDrawLine(render,10, 10, 400, 400);
         SDL_RenderPresent(render);
     }
     
