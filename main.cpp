@@ -12,7 +12,7 @@
 using namespace std;
 
 SDL_Window *window;
-SDL_Renderer *r;
+SDL_Renderer *render;
 SDL_Surface *s;
 double windowrate;
 
@@ -50,8 +50,9 @@ bool systemInit(double w_rate)
         return false;
     }
     
-    window = SDL_CreateWindow("GAME", 100, 100, 640 * w_rate, 480 * w_rate, 0);
-    s = SDL_GetWindowSurface(window);
+    window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
+//    s = SDL_GetWindowSurface(window);
+    render = SDL_CreateRenderer(window, -1, 0);
     
     return true;
     
@@ -61,6 +62,8 @@ bool systemInit(double w_rate)
 bool update()
 {
     SDL_Event Qevnts;
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    SDL_RenderClear(render);
     if(SDL_PollEvent(&Qevnts))
     {
         
@@ -79,13 +82,8 @@ bool update()
     }
     
     //フレームレート調整
-    flamerate.flamewait();
-    auto surret = SDL_UpdateWindowSurface(window);
-    if(surret < 0)
-        {
-            printf("%s",SDL_GetError());
-        }
-    return !(surret < 0);
+    
+    return true;
 }
 vector<SDL_Window*> Dwin;
 
@@ -106,12 +104,16 @@ void  create()
 //Screen dimension constants
 int main( int argc, char* args[] )
 {
-    systemInit(1.0);
+    if(systemInit(1.0) == false){SDL_Quit();return 0;};
+    printf("asdfasdf");
     
     while(update())
     {
-        
+        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+        SDL_RenderDrawLine(render,10, 10, 400, 400);
+        SDL_RenderPresent(render);
     }
     
     SDL_Quit();
+    return 0;
 }
