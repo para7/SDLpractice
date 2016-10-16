@@ -2,7 +2,8 @@
 #define Basesystem_hpp
 
 #include "Data class.hpp"
-#include <SDL2/SDL.h>
+#include "Define.hpp"
+#include SDL2_path
 
 namespace mySDL
 {

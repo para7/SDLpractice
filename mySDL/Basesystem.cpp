@@ -1,9 +1,10 @@
 #include "Basesystem.hpp"
+#include "Define.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
-#include <SDL2_mixer/SDL_mixer.h>
-#include <SDL2_ttf/SDL_ttf.h>
+#include SDL2_path
+#include SDL2image_path
+#include SDL2mixer_path
+#include SDL2ttf_path
 #include "Data class.hpp"
 
 namespace mySDL
