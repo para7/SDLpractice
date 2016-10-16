@@ -1,13 +1,95 @@
 //Using SDL and standard IO
+#include <SDL2/SDL.h>
 #include <stdio.h>
+#include <SDL2_image/SDL_image.h>
+#include <SDL2_mixer/SDL_mixer.h>
+#include <SDL2_ttf/SDL_ttf.h>
+
 #include <string>
-#include <vector>
+#include<vector>
 
-#include "mySDL.hpp"
 
-using namespace mySDL;
+using namespace std;
+
+SDL_Window *window;
+SDL_Renderer *render;
+SDL_Surface *s;
+double windowrate;
+
+class flamecontrol
+{
+private:
+    double fps;
+    int past;
+    bool delay;
+public:
+    flamecontrol(){fps = 60;past = 0;}
+    //fps変更
+    void fpschange(double _fps)
+    {
+        fps = _fps;
+    }
+    void flamewait()
+    {
+        int wait = SDL_GetTicks() - past;
+        if(wait > (1000.0/60.0))
+        {
+            SDL_Delay(wait);
+        }
+        past = SDL_GetTicks();
+    }
+}flamerate;
+
+bool systemInit(double w_rate)
+{
+    windowrate = w_rate;
+    
+    if(SDL_Init( SDL_INIT_VIDEO ) < 0)
+    {
+        printf("%s",SDL_GetError());
+        return false;
+    }
+    
+    window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
+    render = SDL_CreateRenderer(window, -1, 0);
+    
+    return true;
+    
+}
+
+
+bool update()
+{
+    SDL_Event Qevnts;
+    if(SDL_PollEvent(&Qevnts))
+    {
+        
+        switch(Qevnts.type)
+        {
+            case SDL_QUIT:
+                return false;
+                break;
+            case SDL_KEYDOWN:
+                if(Qevnts.key.keysym.sym==SDLK_ESCAPE ||
+                   Qevnts.key.keysym.sym==SDLK_q) return false;
+                break;
+                
+            default: break;
+        }
+    }
+    //レンダリングの結果を画面に反映する
+    SDL_RenderPresent(render);
+    //描画操作(長方形, 直線, 消去)で使う色を設定する
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    //レンダリングの結果を画面に反映する
+    SDL_RenderClear(render);
+    //フレームレート調整
+    
+    return true;
+}
+vector<SDL_Window*> Dwin;
+
 /*
-std::vector<SDL_Window*> Dwin;
 void  create()
 {
     static int a=0;
@@ -24,14 +106,17 @@ void  create()
 //Screen dimension constants
 int main( int argc, char* args[] )
 {
-    SystemInit(1.0);
-    
-    while(Update())
+    if(systemInit(1.0) == false){SDL_Quit();return 0;};
+
+    while(update())
     {
-        DrawLine(10, 10, 400, 400);
+        // 描画操作(長方形, 直線, 消去)で使う色を得る
+        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+        
+        SDL_RenderDrawLine(render,10, 10, 400, 400);
         
     }
     
-    Quit();
+    SDL_Quit();
     return 0;
 }
