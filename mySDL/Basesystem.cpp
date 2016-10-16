@@ -1,15 +1,16 @@
-#include "mySDL.hpp"
+#include "Basesystem.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 #include <SDL2_mixer/SDL_mixer.h>
 #include <SDL2_ttf/SDL_ttf.h>
+#include "Data class.hpp"
 
 namespace mySDL
 {
     SDL_Window *window;
     SDL_Renderer *render;
-    SDL_Surface *s;
+    
     double windowrate;
     
     class flamecontrol
@@ -87,9 +88,9 @@ namespace mySDL
         return exitflag;
     }
     
-    void DrawLine(int x, int y, int x2, int y2)
+    void DrawLine(int x, int y, int x2, int y2 ,Color color)
     {
-        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+        SDL_SetRenderDrawColor(render, color.red, color.green, color.blue, color.alpha);
         SDL_RenderDrawLine(render, x, y, x2, y2);
         
     }
