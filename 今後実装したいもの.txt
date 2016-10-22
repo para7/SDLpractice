@@ -1,0 +1,4 @@
+SystemInit関連の改良
+updateで自動呼出し or 呼び出していない場合はupdateがfalse
+
+とりあえず文字の表示、特にfpsの表示を

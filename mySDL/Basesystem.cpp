@@ -1,11 +1,18 @@
-#include "Basesystem.hpp"
+
 #include "Define.hpp"
+#include <cstdio>
+#pragma comment(lib, "SDL2.lib")
+#pragma comment(lib, "SDL2main.lib")
+#pragma comment(lib, "SDL2_image.lib")
+#pragma comment(lib, "SDL2_mixer.lib")
+#pragma comment(lib, "SDL2_ttf.lib")
 
 #include SDL2_path
 #include SDL2image_path
 #include SDL2mixer_path
 #include SDL2ttf_path
 #include "Data class.hpp"
+#include "Basesystem.hpp"
 
 namespace mySDL
 {
@@ -30,7 +37,7 @@ namespace mySDL
         void flamewait()
         {
             int wait = SDL_GetTicks() - past;
-            if(wait > (1000.0/60.0))
+            if(wait < (1.0/60.0)*1000)
             {
                 SDL_Delay(wait);
             }
