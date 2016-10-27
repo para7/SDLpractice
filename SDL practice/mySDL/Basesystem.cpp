@@ -28,7 +28,10 @@ namespace mySDL
         int past;
         bool delay;
     public:
-        flamecontrol(){fps = 60;past = 0;}
+        flamecontrol(int fps = 60)
+        :fps(60),
+        past(0)
+        {}
         //fps変更
         void fpschange(double _fps)
         {
@@ -43,12 +46,17 @@ namespace mySDL
             }
             past = SDL_GetTicks();
         }
-    }flamerate;
+    };
     
     bool exitflag = true;
     
-    void SystemInit(double w_rate)
+    flamecontrol flamerate;
+    
+    void SystemInit(double w_rate,int fps)
     {
+        flamecontrol foo(fps);
+        flamerate = foo;
+        
         windowrate = w_rate;
         
         if(SDL_Init( SDL_INIT_VIDEO ) < 0)
@@ -66,7 +74,7 @@ namespace mySDL
     }
     
     
-    bool Update()
+    bool Events()
     {
         SDL_Event Qevnts;
         if(SDL_PollEvent(&Qevnts))
@@ -85,6 +93,11 @@ namespace mySDL
                 default: break;
             }
         }
+        return true;
+    }
+    bool Update()
+    {
+        
         //レンダリングの結果を画面に反映する
         SDL_RenderPresent(render);
         //描画操作(長方形, 直線, 消去)で使う色を設定する
@@ -93,18 +106,16 @@ namespace mySDL
         SDL_RenderClear(render);
         //フレームレート調整
         flamerate.flamewait();
+        exitflag = exitflag & Events();
+        
+        if(!exitflag){Quit();}
         return exitflag;
     }
     
-    void DrawLine(int x, int y, int x2, int y2 ,Color color)
-    {
-        SDL_SetRenderDrawColor(render, color.red, color.green, color.blue, color.alpha);
-        SDL_RenderDrawLine(render, x, y, x2, y2);
-        
-    }
     
-    void Quit()
+    
+    void Quit(bool callquit)
     {
-        SDL_Quit();
+        if(callquit)SDL_Quit();
     }
 }

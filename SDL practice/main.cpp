@@ -12,7 +12,6 @@ int main( int argc, char* args[] )
     //最初に呼び出すこと
     SystemInit(2.0);
     
-    
     //Updateでfps調整まで可能
     int a = 0;
     while(Update())
@@ -22,6 +21,6 @@ int main( int argc, char* args[] )
         a ++ ;
     }
     
-    Quit();
+//    Quit();
     return 0;
 }

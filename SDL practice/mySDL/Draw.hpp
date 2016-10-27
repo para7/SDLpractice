@@ -1,6 +1,6 @@
 #ifndef Draw_hpp
 #define Draw_hpp
 
-#include <stdio.h>
+#include "Drawfigures.hpp"
 
 #endif /* Draw_hpp */

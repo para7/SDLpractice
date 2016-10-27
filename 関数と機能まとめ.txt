@@ -1,0 +1,42 @@
+*構想メモを兼ねているので、まだ実装されてない機能が書かれてたりするので注意。
+
+関数は全てnamespace mySDL 内に入れてあります。
+よく分からなければ
+using namespace mySDL;
+と書いておけば大丈夫です。
+
+関数
+解説
+引数説明
+
+//
+void SystemInit(double w_rate,int fps = 60,)
+初期化処理。
+できるだけ最初に呼び出すもの。
+
+int fps       : 画面更新の頻度を設定できます。
+
+double w_rate : ウィンドウの表示倍率。
+                640*480が初期設定で、そこに倍率をかけて縦横を拡大できる。
+
+void updateQuit(bool callquit)
+特にこだわりがなければ使う必要はありません。
+falseを渡すと内部でQuit()[下記参照]を呼び出さなくなります。
+その場合は終了直前にQuit(false)を記述してください。
+
+bool callquit : update()の終了時に自動でquit()を呼び出すかどうか
+
+
+//
+bool Update();
+画面更新などの処理。Whileループに入れて毎回呼び出してください。
+
+
+//
+void Quit(bool callSDLQuit = false)
+
+bool callSDLQuit : trueを渡すとSDLQuitを呼び出します。
+
+初期状態だと、Update()がfalseを返す時に自動で呼び出されるので書く必要はありません。
+updateQuit()にfalseを渡している場合は、最後にこれを呼び出してください。
+***この関数は将来的に、プログラム終了前にしなければならない処理が出てくることに備えて作ってありますので、まだ機能の弱い現在はSDL_Quitを呼び出すだけです。
