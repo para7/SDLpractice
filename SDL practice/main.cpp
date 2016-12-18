@@ -6,6 +6,7 @@
 
 using namespace mySDL;
 
+
 //Screen dimension constants
 int main( int argc, char* args[] )
 {
@@ -16,8 +17,10 @@ int main( int argc, char* args[] )
     int a = 0;
     while(Update())
     {
-        DrawLine(10+ a, 10, 400+a, 400 , Color(255,0,0));
-        
+        Color d = Defines::Red;
+        DrawRect(50, 100, 30, 70,Defines::Green);
+        Rect();
+        DrawLine(10+ a, 10, 400+a, 400 , d);
         a ++ ;
     }
     

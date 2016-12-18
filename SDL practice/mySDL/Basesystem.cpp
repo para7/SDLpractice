@@ -13,6 +13,7 @@
 #include SDL2ttf_path
 #include "Data class.hpp"
 #include "Basesystem.hpp"
+#include "Make structs.hpp"
 
 namespace mySDL
 {
@@ -95,6 +96,7 @@ namespace mySDL
         }
         return true;
     }
+    
     bool Update()
     {
         
@@ -111,7 +113,6 @@ namespace mySDL
         if(!exitflag){Quit();}
         return exitflag;
     }
-    
     
     
     void Quit(bool callquit)
