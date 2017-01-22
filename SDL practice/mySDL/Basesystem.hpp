@@ -10,9 +10,9 @@ namespace mySDL
     extern SDL_Window *window;
     extern SDL_Renderer *render;
     
-    void SystemInit(double w_rate,int fps = 60);
+    void SystemInit(double w_rate,int fps = 60,bool call_quit = true);
     bool Update();
-    void DrawLine(int x, int y, int x2, int y2 ,Color color);
+    void Error();
     
     void Quit(bool callquit = false);
 }

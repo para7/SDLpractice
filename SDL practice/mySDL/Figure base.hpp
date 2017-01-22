@@ -5,6 +5,7 @@
 #include "Define.hpp"
 #include SDL2_path
 
+#include "Data class.hpp"
 #include "Make structs.hpp"
 
 namespace mySDL
@@ -14,8 +15,6 @@ namespace mySDL
     {
     protected:
     public:
-        int x;
-        int y;
         virtual void draw() const =0; //描画
         virtual void move(int _x, int _y) =0; //現在位置から移動
         virtual void jump(int _x,int _y) =0; //指定位置へ移動
@@ -24,22 +23,29 @@ namespace mySDL
     
     class Point : public figure
     {
-    private:
+    protected:
+        int x,y;
     public:
         void draw() const override;
         void move(int _x, int _y) override;
         void jump(int _x, int _y) override;
+        Point();
     };
     
     class Rect : public figure
     {
     private:
-        SDL_Rect rect;
+        SDL_Rect s_rect;
         double angle;
         Color c;
     public:
-        SDL_Rect GetRect() const;//内部をSDL_Rectにして返します
-        
+        Rect();
+        Rect(int x,int y, int w, int h);
+        Rect(int x,int y, int w, int h, Color color);
+        SDL_Rect GetRect() const
+        {
+            return s_rect;
+        }//内部をSDL_Rectにして返します
         void draw() const override;
         void move(int _x, int _y) override;
         void jump(int _x, int _y) override;

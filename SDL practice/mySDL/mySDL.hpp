@@ -3,6 +3,7 @@
 
 #include "Define.hpp"
 #include "Data class.hpp"
+#include "Figure base.hpp"
 #include "Basesystem.hpp"
 #include "Draw.hpp"
 #include "Make structs.hpp"

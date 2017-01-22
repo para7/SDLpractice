@@ -1,9 +1,18 @@
-*構想メモを兼ねているので、まだ実装されてない機能が書かれてたりするので注意。
+*構想メモを兼ねているので、まだ実装されてない機能が書かれてたり、追加忘れも色々あるので注意。
 
-関数は全てnamespace mySDL 内に入れてあります。
-よく分からなければ
+関数は全て名前空間 mySDL です。
 using namespace mySDL;
-と書いておけば大丈夫です。
+
+
+データ型、メンバ変数
+＊図形データ共通＊
+publicメンバ変数に、座標を示すint型データ　x,y　を持つ。
+また、メンバ関数に
+描画を行う　draw(Color c = Defines::White)
+現在の座標から移動する（x,yに+= or -=演算するのと同様）　move(int x,int y)
+指定座標へワープする（x,yに=代入演算するのと同様）　jump(int x,int y)
+を持つ。
+
 
 関数
 解説
@@ -20,25 +29,25 @@ double w_rate : ウィンドウの表示倍率。
                 640*480が初期設定で、そこに倍率をかけて縦横を拡大できる。
 
 //
-void updateQuit(bool callquit)
-特にこだわりがなければ使う必要はありません。
-falseを渡すと内部でQuit()[下記参照]を呼び出さなくなります。
-その場合は終了直前にQuit(false)を記述してください。
-
-bool callquit : update()の終了時に自動でquit()を呼び出すかどうか
 
 
 //
 bool Update();
-画面更新などの処理。Whileループに入れて毎回呼び出してください。
-
+画面更新などの処理。Whileループに入れて毎回呼び出す
+引数は特にこだわりがなければ使う必要はない
 
 //
-void Quit(bool callSDLQuit = false)
+bool autoquit(bool call)
 
-bool callSDLQuit : trueを渡すとSDLQuitを呼び出します。
+call : 終了時Quit自動呼び出しフラグ
 
-初期状態だと、Update()がfalseを返す時に自動で呼び出されるので書く必要はありません。
-事前設定としてupdateQuit()にfalseを渡している場合は、最後にこれを呼び出してください。
-/**この関数は将来的に必要になる可能性に備えて作ってありますので、まだ機能の弱い現在はSDL_Quitを呼び出すだけです。**/
+falseを渡すと内部でQuit()[下記参照]を呼び出さなくなる
+その場合は終了直前にQuit(false)を記述すること
+
+//
+void Quit()
+
+初期状態だと、Update()がfalseを返す時に自動で呼び出されるので書く必要はない。
+事前設定としてautoQuit()にfalseを渡している場合は、最後にこれを呼び出す。
+
 

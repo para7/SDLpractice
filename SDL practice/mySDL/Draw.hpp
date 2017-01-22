@@ -3,6 +3,7 @@
 
 #include "Drawfigures.hpp"
 #include "Data class.hpp"
+#include "DrawTexture.hpp"
 
 namespace mySDL
 {    
