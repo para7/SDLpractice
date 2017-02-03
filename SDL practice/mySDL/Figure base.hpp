@@ -21,6 +21,7 @@ namespace mySDL
         
     };
     
+    //座標クラス
     class Point : public figure
     {
     protected:
@@ -32,20 +33,19 @@ namespace mySDL
         Point();
     };
     
+    //SDL_Rectを微改良したもの
     class Rect : public figure
     {
     private:
-        SDL_Rect s_rect;
         double angle;
         Color c;
     public:
+        SDL_Rect rect;
+        
         Rect();
         Rect(int x,int y, int w, int h);
         Rect(int x,int y, int w, int h, Color color);
-        SDL_Rect GetRect() const
-        {
-            return s_rect;
-        }//内部をSDL_Rectにして返します
+    
         void draw() const override;
         void move(int _x, int _y) override;
         void jump(int _x, int _y) override;

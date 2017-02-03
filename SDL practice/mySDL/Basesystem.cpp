@@ -9,7 +9,8 @@
 #pragma comment(lib, "SDL2_ttf.lib")
 
 #include SDL2_path
-#include <SDL2_image/SDL_image.h>
+#include SDL2image_path
+#include SDL2ttf_path
 #include "Basesystem.hpp"
 //#include "Make structs.hpp"
 
@@ -65,7 +66,7 @@ namespace mySDL
         
         windowrate = w_rate;
         
-        if(SDL_Init( SDL_INIT_VIDEO ) < 0)
+        if(SDL_Init( SDL_INIT_VIDEO ) < 0 | TTF_Init()==-1)
         {
             Error();
             return;
@@ -118,7 +119,7 @@ namespace mySDL
         //レンダリングの結果を画面に反映する
         SDL_RenderPresent(render);
         //描画操作(長方形, 直線, 消去)で使う色を設定する
-        SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
         //現在のレンダリングの対象を色で塗りつぶして消去する
         SDL_RenderClear(render);
         //フレームレート調整

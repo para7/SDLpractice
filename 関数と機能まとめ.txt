@@ -51,3 +51,17 @@ void Quit()
 事前設定としてautoQuit()にfalseを渡している場合は、最後にこれを呼び出す。
 
 
+//
+文字描画系
+
+DrawText(int x ,int y,int size, string str, string fontname)　他にも引数が複数ある
+文字を描画。
+
+class Text
+.draw(int x,int y);
+bool update();
+string ret_string;
+
+内部でTextureを生成して保持するので処理が軽い。
+判定用に文字列保持確保しておく方が無駄だと判断したので、同一文字列でもTexureを再生成する。
+毎フレーム変化するテキストでもこっちを使うべき。
