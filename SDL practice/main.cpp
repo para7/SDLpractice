@@ -3,8 +3,6 @@
 #include <vector>
 
 #include "mySDL/mySDL.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
 
 using namespace mySDL;
 
@@ -29,6 +27,10 @@ int main( int argc, char* args[] )
         a ++ ;
         
         test.draw(250, 250);
+        
+        auto cc = Defines::White;
+        
+        DrawText(30, 240, 20,cc, "テキスト", "Yu Gothic Bold.otf" );
     }
     
 //    Quit();

@@ -10,6 +10,7 @@
 
 #include SDL2_path
 #include <SDL2_image/SDL_image.h>
+#include SDL2ttf_path
 #include "Basesystem.hpp"
 //#include "Make structs.hpp"
 
@@ -67,6 +68,12 @@ namespace mySDL
         
         if(SDL_Init( SDL_INIT_VIDEO ) < 0)
         {
+            Error();
+            return;
+        }
+        if(TTF_Init() < 0)
+        {
+            printf("TTF_Init error : %s",TTF_GetError());
             Error();
             return;
         }
@@ -138,7 +145,7 @@ namespace mySDL
     
     void Error()
     {
-        printf("%s",SDL_GetError());
+        printf("%s¥n",SDL_GetError());
         exitflag = false;
         return;
     }

@@ -36,7 +36,7 @@ namespace mySDL
     {
     private:
         SDL_Rect s_rect;
-        double angle;
+//        double angle;
         Color c;
     public:
         Rect();
@@ -47,6 +47,7 @@ namespace mySDL
             return s_rect;
         }//内部をSDL_Rectにして返します
         void draw() const override;
+        void drawfill() const;
         void move(int _x, int _y) override;
         void jump(int _x, int _y) override;
     };
