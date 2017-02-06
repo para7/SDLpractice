@@ -6,23 +6,23 @@ namespace mySDL
 {
     Color::Color()
     {
-        r = g = b = a = 0;
+        color.r = color.g = color.b = color.a = 0;
     };
     
     Color::Color(int _red , int _green , int _blue)
     {
-        r = _red;
-        g = _green;
-        b = _blue;
-        a = 0;
+        color.r = _red;
+        color.g = _green;
+        color.b = _blue;
+        color.a = 0;
     };
     
     Color::Color(int _red , int _green , int _blue , int _alpha)
     {
-        r = _red;
-        g = _green;
-        b = _blue;
-        a = 0;
+        color.r = _red;
+        color.g = _green;
+        color.b = _blue;
+        color.a = 0;
     };
     
     namespace Defines
