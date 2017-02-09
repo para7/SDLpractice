@@ -12,7 +12,6 @@ namespace mySDL
     private:
         
     public:
-        SDL_Color color;
         Color();
         Color(int _red , int _green , int _blue );
         Color(int _red , int _green , int _blue , int _alpha);

@@ -12,31 +12,30 @@
 #include <SDL2_image/SDL_image.h>
 #include SDL2ttf_path
 #include "Basesystem.hpp"
-//#include "Make structs.hpp"
 
+/*
 namespace mySDL
 {
     class flamecontrol
     {
     private:
         double fps;
-        int past;
+        double past;
       //  bool delay;
     public:
-        flamecontrol():fps(60),past(0){}
-        flamecontrol(int _fps)
-        :fps(_fps),
-        past(0)
-        {}
+        flamecontrol()          :fps(60),  past(0){}
+        flamecontrol(double _fps)  :fps(_fps),past(0){}
         //fps変更
+
         void fpschange(double _fps)
         {
             fps = _fps;
         }
+
         void flamewait()
         {
-            int wait = SDL_GetTicks() - past;
-            if(wait < (1.0/60.0)*1000)
+            int wait = - (Uint32)(1000.0/fps) - (SDL_GetTicks() - past);
+            if(wait > 0)
             {
                 SDL_Delay(wait);
             }
@@ -45,6 +44,7 @@ namespace mySDL
     };
     
 }
+*/
 
 namespace mySDL
 {
@@ -56,12 +56,12 @@ namespace mySDL
     bool callquit = true;
     bool exitflag = true;
     
-    flamecontrol flamerate;
+//    flamecontrol flamerate;
     
     void SystemInit(double w_rate,int fps,bool call_quit)
     {
-        flamecontrol foo(fps);
-        flamerate = foo;
+//        flamecontrol foo(fps);
+//        flamerate = foo;
         callquit = call_quit;
         
         windowrate = w_rate;
@@ -79,7 +79,7 @@ namespace mySDL
         }
         
         window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
-        render = SDL_CreateRenderer(window, -1, 0);
+        render = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
         
         // 描画操作(長方形, 直線, 消去)で使う色を得る
         SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
@@ -100,7 +100,7 @@ namespace mySDL
     bool Events()
     {
         SDL_Event Qevnts;
-        if(SDL_PollEvent(&Qevnts))
+        while(SDL_PollEvent(&Qevnts))
         {
             
             switch(Qevnts.type)
@@ -129,7 +129,7 @@ namespace mySDL
         //現在のレンダリングの対象を色で塗りつぶして消去する
         SDL_RenderClear(render);
         //フレームレート調整
-        flamerate.flamewait();
+//        flamerate.flamewait();
         exitflag = exitflag & Events();
         
         if(!exitflag & callquit){Quit();}
@@ -137,9 +137,11 @@ namespace mySDL
     }
     
     
-    void Quit(bool callquit)
+    void Quit()
     {
-        if(callquit)SDL_Quit();
+        SDL_Quit();
+        TTF_Quit();
+        IMG_Quit();
         SDL_DestroyRenderer(render);
     }
     

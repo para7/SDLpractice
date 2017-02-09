@@ -11,10 +11,9 @@ namespace mySDL
 {
     
     void DrawText(const int x,const int y,const int size ,SDL_Color &color ,const char  *str ,const char  *fontname)
-    {
+    {        
         if(fontname == NULL)
         {
-            //            fontname = "游ゴシック";
             return;
         }
         TTF_Font *font;
@@ -27,6 +26,9 @@ namespace mySDL
         if(font == NULL)
         {
             printf("TTF_OpenFont: %s\n", TTF_GetError());
+            TTF_CloseFont(font);
+            SDL_FreeSurface(textsur);
+            SDL_DestroyTexture(texttex);
             return;
             //            font = TTF_OpenFont("游ゴシック", size);
         }
@@ -35,6 +37,12 @@ namespace mySDL
         SDL_QueryTexture(texttex, NULL, NULL, &w, &h);
         auto drawrect = makeRect(x, y, w, h);
         SDL_RenderCopy(render, texttex, NULL, &drawrect);
+        
+        TTF_CloseFont(font);
+        SDL_FreeSurface(textsur);
+        SDL_DestroyTexture(texttex);
+        
+        return;
     }
 /*
     void DrawText(const int x,const int y,const int size ,SDL_Color &color ,const std::string &str ,const char *fontname)

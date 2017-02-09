@@ -14,6 +14,6 @@ namespace mySDL
     bool Update();
     void Error();
     
-    void Quit(bool callquit = false);
+    void Quit();
 }
 #endif /* Basesystem_hpp */
