@@ -7,8 +7,15 @@
 
 namespace mySDL
 {
+    extern SDL_Rect windowrect;
     extern SDL_Window *window;
-    extern SDL_Renderer *render;
+    extern SDL_Renderer *renderer;
+    
+    void BasestatusInit();
+}
+
+namespace mySDL
+{
     
     void SystemInit(double w_rate,int fps = 60,bool call_quit = true);
     bool Update();

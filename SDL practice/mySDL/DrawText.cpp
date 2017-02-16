@@ -9,17 +9,26 @@
 
 namespace mySDL
 {
+    static TTF_Font *font = nullptr;
+    static SDL_Surface *textsur;
+    static SDL_Texture *texttex;
+
     
     void DrawText(const int x,const int y,const int size ,SDL_Color &color ,const char  *str ,const char  *fontname)
-    {        
-        if(fontname == NULL)
+    {
+        SDL_Rect drawrect = {0,0,50,50};
+        
+
+        if(texttex == nullptr)
         {
-            return;
+            printf("call CreateTexture¥n");
+            texttex = SDL_CreateTexture(renderer,         SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,640, 480);
         }
-        TTF_Font *font;
-        SDL_Surface *textsur;
-        SDL_Texture *texttex;
-        int w,h;
+        if(textsur == nullptr)
+        {
+            textsur            = SDL_CreateRGBSurface(0, 640, 480, 32,0x00FF0000,0x0000FF00,0x000000FF,0xFF000000);
+        }
+        
         
         font = TTF_OpenFont(fontname, size);
         
@@ -28,21 +37,18 @@ namespace mySDL
             printf("TTF_OpenFont: %s\n", TTF_GetError());
             TTF_CloseFont(font);
             SDL_FreeSurface(textsur);
-            SDL_DestroyTexture(texttex);
             return;
-            //            font = TTF_OpenFont("游ゴシック", size);
         }
         textsur = TTF_RenderUTF8_Blended(font, str, color);
-        texttex = SDL_CreateTextureFromSurface(render, textsur);
-        SDL_QueryTexture(texttex, NULL, NULL, &w, &h);
-        auto drawrect = makeRect(x, y, w, h);
-        SDL_RenderCopy(render, texttex, NULL, &drawrect);
+        drawrect = makeRect(0,0,textsur->w,textsur->h);
+        SDL_UpdateTexture(texttex, &drawrect, textsur->pixels, textsur->pitch);
+        SDL_RenderCopy(renderer, texttex, NULL, &drawrect);
         
         TTF_CloseFont(font);
         SDL_FreeSurface(textsur);
+//        textsur = nullptr;
         SDL_DestroyTexture(texttex);
         
-        return;
     }
 /*
     void DrawText(const int x,const int y,const int size ,SDL_Color &color ,const std::string &str ,const char *fontname)

@@ -10,7 +10,7 @@ namespace mySDL
 {
     void Texture::loadempty()
     {
-        texture = SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 100, 100);
+        texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 100, 100);
         drawrect = makeRect(0, 0, 100, 100);
         if(texture == NULL)
         {
@@ -32,7 +32,7 @@ namespace mySDL
         }
         else
         {
-            texture = SDL_CreateTextureFromSurface(render, road);
+            texture = SDL_CreateTextureFromSurface(renderer, road);
         }
         
         SDL_QueryTexture(texture, NULL, NULL, &drawrect.w, &drawrect.h);
@@ -48,6 +48,6 @@ namespace mySDL
     {
         drawrect.x = x;
         drawrect.y = y;
-        SDL_RenderCopy(render, texture, NULL, &drawrect);
+        SDL_RenderCopy(renderer ,texture, NULL, &drawrect);
     }
 }

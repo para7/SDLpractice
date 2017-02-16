@@ -12,59 +12,75 @@
 #include <SDL2_image/SDL_image.h>
 #include SDL2ttf_path
 #include "Basesystem.hpp"
+#include "Make structs.hpp"
 
 /*
+ namespace mySDL
+ {
+ class flamecontrol
+ {
+ private:
+ double fps;
+ double past;
+ //  bool delay;
+ public:
+ flamecontrol()          :fps(60),  past(0){}
+ flamecontrol(double _fps)  :fps(_fps),past(0){}
+ //fps変更
+ 
+ void fpschange(double _fps)
+ {
+ fps = _fps;
+ }
+ 
+ void flamewait()
+ {
+ int wait = - (Uint32)(1000.0/fps) - (SDL_GetTicks() - past);
+ if(wait > 0)
+ {
+ SDL_Delay(wait);
+ }
+ past = SDL_GetTicks();
+ }
+ };
+ 
+ }
+ */
+
 namespace mySDL
 {
-    class flamecontrol
-    {
-    private:
-        double fps;
-        double past;
-      //  bool delay;
-    public:
-        flamecontrol()          :fps(60),  past(0){}
-        flamecontrol(double _fps)  :fps(_fps),past(0){}
-        //fps変更
-
-        void fpschange(double _fps)
-        {
-            fps = _fps;
-        }
-
-        void flamewait()
-        {
-            int wait = - (Uint32)(1000.0/fps) - (SDL_GetTicks() - past);
-            if(wait > 0)
-            {
-                SDL_Delay(wait);
-            }
-            past = SDL_GetTicks();
-        }
-    };
-    
-}
-*/
-
-namespace mySDL
-{
-
+    SDL_Rect windowrect;
     SDL_Window *window;
-    SDL_Renderer *render;
+    SDL_Renderer *renderer;
     
-    double windowrate;
+    void BasestatusInit()
+    {
+        windowrect = makeRect(0, 0, 640, 480);
+        window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+        
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // 拡大縮小が滑らかになる
+        SDL_RenderSetLogicalSize(renderer, 640, 480);//拡縮に対応した固定画面サイズをセット
+
+    }
+}
+
+namespace mySDL
+{
+//    double windowrate;
     bool callquit = true;
     bool exitflag = true;
     
-//    flamecontrol flamerate;
+    //    flamecontrol flamerate;
     
     void SystemInit(double w_rate,int fps,bool call_quit)
     {
-//        flamecontrol foo(fps);
-//        flamerate = foo;
         callquit = call_quit;
         
-        windowrate = w_rate;
+//        windowrate = w_rate;
         
         if(SDL_Init( SDL_INIT_VIDEO ) < 0)
         {
@@ -78,11 +94,8 @@ namespace mySDL
             return;
         }
         
-        window = SDL_CreateWindow("GAME", 100, 100, 640, 480, 0);
-        render = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-        
         // 描画操作(長方形, 直線, 消去)で使う色を得る
-        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+//        SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
         
         // JPGとPNG形式の画像を読み込めるようにする
         int flags=IMG_INIT_JPG|IMG_INIT_PNG;
@@ -94,6 +107,7 @@ namespace mySDL
             // ここでエラー処理を行う
             Error();
         }
+        BasestatusInit();
     }
     
     
@@ -109,8 +123,7 @@ namespace mySDL
                     return false;
                     break;
                 case SDL_KEYDOWN:
-                    if(Qevnts.key.keysym.sym==SDLK_ESCAPE ||
-                       Qevnts.key.keysym.sym==SDLK_q) return false;
+                    if(Qevnts.key.keysym.sym==SDLK_ESCAPE || Qevnts.key.keysym.sym==SDLK_q) return false;
                     break;
                     
                 default: break;
@@ -123,16 +136,16 @@ namespace mySDL
     {
         
         //レンダリングの結果を画面に反映する
-        SDL_RenderPresent(render);
+        SDL_RenderPresent(renderer);
         //描画操作(長方形, 直線, 消去)で使う色を設定する
-        SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         //現在のレンダリングの対象を色で塗りつぶして消去する
-        SDL_RenderClear(render);
+        SDL_RenderClear(renderer);
         //フレームレート調整
-//        flamerate.flamewait();
+        //        flamerate.flamewait();
         exitflag = exitflag & Events();
         
-        if(!exitflag & callquit){Quit();}
+        if((!exitflag) & callquit){Quit();}
         return exitflag;
     }
     
@@ -142,7 +155,7 @@ namespace mySDL
         SDL_Quit();
         TTF_Quit();
         IMG_Quit();
-        SDL_DestroyRenderer(render);
+        SDL_DestroyRenderer(renderer);
     }
     
     void Error()

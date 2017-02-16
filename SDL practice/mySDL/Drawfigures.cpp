@@ -11,8 +11,8 @@ namespace mySDL
 {
     void DrawLine(int x, int y, int x2, int y2 ,Color color)
     {
-        SDL_SetRenderDrawColor(render, color.r, color.g, color.b, color.a);
-        SDL_RenderDrawLine(render, x, y, x2, y2);
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderDrawLine(renderer, x, y, x2, y2);
         
     }
     //長方形を描画
@@ -21,11 +21,11 @@ namespace mySDL
         auto rect = makeRect(x, y, w, h);
         setDrawColor(color);
 //        SDL_RenderDrawRect(render, &rect);
-        SDL_RenderFillRect(render, &rect);
+        SDL_RenderFillRect(renderer, &rect);
     }
     void DrawRect(SDL_Rect rect,Color color)
     {
         setDrawColor(color);
-        SDL_RenderDrawRect(render, &rect);
+        SDL_RenderDrawRect(renderer, &rect);
     }
 }
