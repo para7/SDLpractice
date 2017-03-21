@@ -1,64 +1,34 @@
 #include "DrawText.hpp"
+#include <string>
+#include <map>
+#include <memory>
+
+#include "Define.hpp"
+#include SDL2_path
+
 #include "Basesystem.hpp"
 #include "Data class.hpp"
 #include "Make structs.hpp"
-#include "Define.hpp"
-#include <string>
-#include SDL2_path
+#include "Textdata.hpp"
 
 namespace mySDL
 {
-    static TTF_Font *font = nullptr;
-    static SDL_Surface *textsur;
-    static SDL_Texture *texttex;
+    static std::map <FONT_TEXTURE_INFO,std::unique_ptr<NumberTextures>> numberdraws;
 
-    
-    void DrawText(const int x,const int y,const int size ,SDL_Color &color ,const char  *str ,const char  *fontname)
+    SDL_Rect DrawText(int x, int y,unsigned int fontsize,const std::string &fontpath,const SDL_Color &color,long long value,bool skip_drawprcessing)
     {
-        SDL_Rect drawrect = {0,0,50,50};
-        
 
+        //    Texture_with_width
+        //tupleをキーにしたmapで管理
+        FONT_TEXTURE_INFO drawinfo(fontpath,fontsize,color);
         
-        if(textsur == nullptr)
+        if(numberdraws.find(drawinfo) == numberdraws.end())
         {
-            textsur            = SDL_CreateRGBSurface(0, 640, 480, 32,0x00FF0000,0x0000FF00,0x000000FF,0xFF000000);
+            numberdraws[drawinfo] = std::unique_ptr<NumberTextures>(new NumberTextures(drawinfo));
         }
         
+        //texs.draw(0,0, value);
         
-        font = TTF_OpenFont(fontname, size);
-        
-        if(font == NULL)
-        {
-            printf("TTF_OpenFont: %s\n", TTF_GetError());
-            TTF_CloseFont(font);
-            SDL_FreeSurface(textsur);
-            return;
-        }
-        int w,h;
-        
-        textsur = TTF_RenderUTF8_Blended(font, str, color);
-        if(texttex == nullptr)
-        {
-             texttex = SDL_CreateTexture(renderer,         SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,textsur->w, textsur->h);
-        }
-        drawrect.w = textsur->w;
-        drawrect.h = textsur->h;
-        SDL_UpdateTexture(texttex, &drawrect, textsur->pixels, textsur->pitch*textsur->h);
-        
-        SDL_QueryTexture(texttex, NULL, NULL, &w, &h);
-        drawrect = makeRect(x,y,textsur->w,textsur->h);
-        SDL_RenderCopy(renderer, texttex, NULL, NULL);
-/*
-        textsur = TTF_RenderUTF8_Blended(font, str, color);
-        drawrect = makeRect(0,0,textsur->w,textsur->h);
-        SDL_UpdateTexture(texttex, &drawrect, textsur->pixels, textsur->pitch);
-        SDL_RenderCopy(renderer, texttex, NULL, &drawrect);
-        */
-        TTF_CloseFont(font);
-        SDL_FreeSurface(textsur);
-        SDL_DestroyTexture(texttex);
+        return {0,0,0,0};
     }
-
-    
-    
 }

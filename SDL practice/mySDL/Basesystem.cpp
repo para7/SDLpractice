@@ -52,6 +52,7 @@ namespace mySDL
     SDL_Rect windowrect;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    SDL_Texture *SDL_TEXTURE_FORINIT;
     
     void BasestatusInit()
     {
@@ -65,6 +66,8 @@ namespace mySDL
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // 拡大縮小が滑らかになる
         SDL_RenderSetLogicalSize(renderer, 640, 480);//拡縮に対応した固定画面サイズをセット
 
+        //初期化用数値
+        SDL_TEXTURE_FORINIT = SDL_CreateTexture(renderer,  SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET, 0, 0);
     }
 }
 

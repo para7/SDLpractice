@@ -11,6 +11,8 @@ namespace mySDL
     extern SDL_Window *window;
     extern SDL_Renderer *renderer;
     
+    extern SDL_Texture *SDL_TEXTURE_FORINIT;
+    
     void BasestatusInit();
 }
 

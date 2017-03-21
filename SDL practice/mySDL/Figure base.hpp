@@ -35,13 +35,15 @@ namespace mySDL
     class Rect : public figure
     {
     private:
-        SDL_Rect s_rect;
 //        double angle;
-        Color c;
     public:
+        SDL_Rect s_rect;
+        Color c;
+
         Rect();
         Rect(int x,int y, int w, int h);
         Rect(int x,int y, int w, int h, Color color);
+        
         SDL_Rect GetRect() const
         {
             return s_rect;
