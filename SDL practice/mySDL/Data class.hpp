@@ -7,14 +7,23 @@
 namespace mySDL
 {
     
-    class Color : public SDL_Color
+    class Color final : public SDL_Color
     {
     private:
         
     public:
+        Color(SDL_Color col);
         Color();
         Color(int _red , int _green , int _blue );
         Color(int _red , int _green , int _blue , int _alpha);
+        
+        bool operator >(const Color& rhs) const;
+        bool operator <(const Color& rhs) const;
+        bool operator ==(const Color& rhs) const;
+        inline bool operator !=(const Color rhs) const
+        {
+            return !(*this == rhs);
+        }
     };
     
     namespace Defines

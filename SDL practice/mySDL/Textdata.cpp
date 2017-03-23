@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <map>
+#include <cstdio>
 
 #include "Define.hpp"
 #include SDL2_path
@@ -45,6 +46,7 @@ namespace mySDL
         }
         
         char str[2];
+        height = 0;
         for(auto c : for_make)
         {
             int h;
@@ -72,25 +74,13 @@ namespace mySDL
         }
     }
     
-/*
-    void NumberTextures ::  draw(int x,int y,               int number , SDL_Rect *get_region , bool drawflag)
-    {
-        draw(x,y,static_cast< long long >(number));
-    }
-*/
-/*
-    void NumberTextures :: draw(int x,int y,          unsigned number , SDL_Rect *get_region, bool drawflag)
-    {
-        draw(x,y,static_cast< long long >(number));
-    }
-*/
     NumberTextures :: NumberTextures(const std::string &font_path, int size,SDL_Color const &color) : Number_font(font_path,size,color)
     {}
     
     NumberTextures :: NumberTextures(const FONT_TEXTURE_INFO &data) : Number_font(std::get<0>(data),std::get<1>(data),std::get<2>(data))
     {}
     
-    void NumberTextures :: draw(int x,int y,         long long number , SDL_Rect *get_region, bool drawflag)
+    void NumberTextures :: draw(const int x,const int y,         long long number , SDL_Rect *get_region, bool drawflag)
     {
         int w = 0;//合計横幅
         
@@ -101,8 +91,15 @@ namespace mySDL
         {
             for(char c : str)
             {
-                SDL_Rect drawregion =(SDL_Rect){x + w, y, texttex[c].width,height};
+                SDL_Rect drawregion =makeRect(x + w, y, texttex[c].width,height);
                 SDL_RenderCopy(renderer, texttex[c].texture,  NULL, &drawregion);
+                w += texttex[c].width;
+            }
+        }
+        else
+        {
+            for(char c : str)
+            {
                 w += texttex[c].width;
             }
         }
@@ -112,22 +109,47 @@ namespace mySDL
             *get_region = makeRect(x, y, w, height);
         }
     }
-    void NumberTextures :: draw(int x,int y,unsigned long long number , SDL_Rect *get_region, bool drawflag)
+    
+    void NumberTextures :: draw(int x,int y,double number ,int digits, SDL_Rect *get_region, bool drawflag)
     {
-        int size = 0;
-        //数字を一桁ずつ描画
+        int w = 0;
+        int cnt = 0;
+        std::string str = std::to_string(number);
+        std::string sstr {};
         
+        for(char c : str)
+        {
+            cnt++;
+            if(drawflag)
+            {
+                SDL_Rect drawregion =makeRect(x + w, y, texttex[c].width,height);
+                SDL_RenderCopy(renderer, texttex[c].texture,  NULL, &drawregion);
+            }
+            w += texttex[c].width;
+            if(c=='.')
+            {
+                sstr = str.substr(cnt);
+                break;
+            }
+        }
         
-    }
-    void NumberTextures :: draw(int x,int y,float number , SDL_Rect *get_region, bool drawflag){
-        return draw(x,y,static_cast<double>(number));
-    }
-    void NumberTextures :: draw(int x,int y,double number , SDL_Rect *get_region, bool drawflag)
-    {
-        int size = 0;
-        //数字を一桁ずつ描画
+        char c;
+        for(int i = 0; i < digits;++i)
+        {
+            i < sstr.size() ? c = sstr[i] : c = 0;
+            
+            if(drawflag)
+            {
+                SDL_Rect drawregion =makeRect(x + w, y, texttex[c].width,height);
+                SDL_RenderCopy(renderer, texttex[c].texture,  NULL, &drawregion);
+            }
+            w += texttex[c].width;
+        }
         
-        
+        if(get_region != nullptr) //範囲計算
+        {
+            *get_region = makeRect(x, y, w, height);
+        }
     }
 }
 /*

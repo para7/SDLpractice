@@ -17,20 +17,11 @@ int main( int argc, char* args[] )
     
     Texture test("manda.png");
     
-    Uint64 pasttime = 0,time = 0,per = 0,fps = 0;
+    int pasttime = 0,time = 0,per = 58,fps = 0;
     
     while(Update())
     {
-        
-        Color d = Defines::Red;
-        //        DrawRect(50, 100, 30, 70,Defines::Green);
-        //        rect.draw();
-        
-        //        DrawLine(10+ a, 10, 400+a, 400 , d);
         a ++ ;
-        //        a = a%60;
-        
-        //        test.draw(250, 250);
         
         SDL_Color cc = Defines::White;
         
@@ -42,15 +33,13 @@ int main( int argc, char* args[] )
         else
         {
             time = SDL_GetTicks() - pasttime;
-            per ++;
+            ++per;
             fps = 1000.0/(time/per);
         }
-        fps = 1234567890;
-        auto str = std::to_string(fps);
-      
- //       DrawText(fps);
         
-        std::string fontpath{"Keyboard.ttf"};
+        DrawText(a, 100, fps, 30,Defines::White,"Yu Gothic Bold.otf");
+        DrawText(a, 50, 40.123,5, 30,Defines::White);
+        
     }
     
 //    Quit();

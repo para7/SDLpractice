@@ -4,6 +4,39 @@
 
 namespace mySDL
 {
+        bool Color:: operator >(const Color& rhs) const
+    {
+        if(this->r != rhs.r) return this->r > rhs.r;
+        if(this->g != rhs.g) return this->g > rhs.g;
+        if(this->b != rhs.b) return this->b > rhs.b;
+        if(this->a != rhs.a) return this->a > rhs.a;
+        return false;
+    }
+bool    Color::  operator <(const Color& rhs) const
+    {
+        if(this->r != rhs.r) return this->r < rhs.r;
+        if(this->g != rhs.g) return this->g < rhs.g;
+        if(this->b != rhs.b) return this->b < rhs.b;
+        if(this->a != rhs.a) return this->a < rhs.a;
+        return false;
+        return false;
+    }
+    bool Color:: operator ==(const Color& rhs) const
+    {
+        return this->r == rhs.r &&
+               this->b == rhs.b &&
+               this->g == rhs.g &&
+               this->a == rhs.a;
+    }
+    
+    Color::Color(SDL_Color col)
+    {
+        this->r = col.r;
+        this->g = col.g;
+        this->b = col.b;
+        this->a = col.a;
+    }
+    
     Color::Color()
     {
         r = g = b = a = 0;
