@@ -6,6 +6,7 @@
 #include <array>
 #include <map>
 #include <cstdio>
+#include <memory>
 
 #include "Define.hpp"
 #include SDL2_path
@@ -149,6 +150,37 @@ namespace mySDL
         if(get_region != nullptr) //範囲計算
         {
             *get_region = makeRect(x, y, w, height);
+        }
+    }
+    
+    void TTFTextures::draw(const int x,const int y,const std::string str, SDL_Rect *const get_region, const bool drawflag)
+    {
+        if(textures.count(str) == 0)
+        {
+            TTF_Font *font;
+            SDL_Surface* sur;
+            font = TTF_OpenFont(std::get<0>(textureinfo).c_str(), std::get<1>(textureinfo));
+            sur = TTF_RenderUTF8_Blended(font, str.c_str(), std::get<2>(textureinfo));
+            textures[str] = SDL_CreateTextureFromSurface(renderer, sur);
+            TTF_CloseFont(font);
+            SDL_FreeSurface(sur);
+        }
+        SDL_Rect dstrect;
+        dstrect.x = x;dstrect.y = y;
+        SDL_QueryTexture(textures[str], nullptr, nullptr, &dstrect.w, &dstrect.h);
+        SDL_RenderCopy(renderer, textures[str], nullptr, &dstrect);
+        
+        if(get_region!= nullptr)
+        {
+            *get_region = dstrect;
+        }
+    }
+    
+    TTFTextures::~TTFTextures()
+    {
+        for(auto &tex : textures)
+        {
+            SDL_DestroyTexture(tex.second);
         }
     }
 }
