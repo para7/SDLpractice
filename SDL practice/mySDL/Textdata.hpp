@@ -16,12 +16,14 @@ namespace mySDL
     typedef std::tuple<std::string,int,Color> FONT_TEXTURE_INFO;//フォント名、サイズ、色
 
     //ちょっと付け足しただけ
-    class Texture_with_width final
+    class Texture_with_width
     {
     public:
         SDL_Texture *texture;
         int width;//頻繁なアクセスが発生するけど毎回SDL_QueryTexture呼ぶのはだるいので幅の数値を取っておく
-        //int underscore;//高さ合わせ用　一番縦幅が大きいものに合わせて下にずらすことで下部を揃える
+        //int underscore;//高さ合わせ用　一番縦幅が大きいものに合わせて下にずらすことで下部を揃える　不要？
+        
+        virtual ~Texture_with_width(){};
         
         Texture_with_width()//初期値設定用コンストラクタ
         :
@@ -59,7 +61,20 @@ namespace mySDL
         void draw(int x,int y,            double number ,int digits, SDL_Rect *get_region = nullptr , bool drawflag = true);
         
         FONT_TEXTURE_INFO status(){return FONT_TEXTURE_INFO{fontname,fontsize,fontcolor};}//比較用
-    };    
+    };
+    
+    class TTFTextures
+    {
+    private:
+        const FONT_TEXTURE_INFO textureinfo;
+        std::map<std::string , SDL_Texture*> textures;
+    public:
+        TTFTextures(FONT_TEXTURE_INFO info):textureinfo(info){};
+        virtual ~TTFTextures();
+        
+        void draw(int x,int y, std::string str, SDL_Rect *get_region, bool drawflag = true);
+//        SDL_Texture* gettexture(std::string drawstr);
+    };
 }
 
 #endif /* Textdata_hpp */

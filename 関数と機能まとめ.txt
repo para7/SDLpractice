@@ -54,14 +54,20 @@ void Quit()
 //
 文字描画系
 
-DrawText(int x ,int y,int size, string str, string fontname)　他にも引数が複数ある
-文字を描画。
+void DrawText(int x, int y,long long value,　　　　　　　 unsigned int fontsize = 20,const SDL_Color &color = Defines::White,const std::string &fontpath = "Yu Gothic Bold.otf",SDL_Rect* drawregion = nullptr,bool skip_drawporcess = false);
 
-class Text
-.draw(int x,int y);
-bool update();
-string ret_string;
+void DrawText(int x, int y,double value   ,int digits,　unsigned int fontsize = 20,const SDL_Color &color = Defines::White,const std::string &fontpath = "Yu Gothic Bold.otf",SDL_Rect* drawregion = nullptr,bool skip_drawprocess = false);
 
-内部でTextureを生成して保持するので処理が軽い。
-判定用に文字列保持確保しておく方が無駄だと判断したので、同一文字列でもTexureを再生成する。
-毎フレーム変化するテキストでもこっちを使うべき。
+void DrawText(int x, int y,std::string str,　　　　　　　　unsigned int fontsize = 20,const SDL_Color &color = Defines::White,const std::string &fontpath = "Yu Gothic Bold.otf",SDL_Rect* drawregion = nullptr,bool skip_drawprocess = false);
+
+文字列を描画。引数がクソわかりにくくなってるので解説。
+1,2,の引数はx,yの座標で、描画開始となる左上の座標を指定。
+3,value　や　str　には描画したいデータを入れる。double型のみ小数点以下の桁数も指定する必要がある。（引数同じだとlong longにキャストされてしまうので）
+ーここまでが必須引数。ー
+4,fontsizeは文字の大きさ。TTF_RenderUTF8_Blendedに投げてるだけなので、細かい調整はできないかもしれない。
+5,colorは色をいれる。「mySDL::Color : public SDL_Color」を使っても良い。
+6.fontpathはフォントへのパスを指定。初期値は環境に応じてhppいじって調整した方が良い。
+7.drawregion　は描画領域を指定したいときにポインタを渡しておく。（参照渡しだと、初期値＝渡した値、の時に判別がつかないのでポインタにしてある。）
+8.skip_drawprcess（誤字...）は描画工程をスキップする。つまり描画領域だけ取得できる。
+
+SDL_Textureで回転描画ができるのをすっかり忘れてたので、そのうち回転・反転描画機能をつける。
