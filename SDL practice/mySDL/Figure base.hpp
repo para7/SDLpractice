@@ -10,28 +10,30 @@
 
 namespace mySDL
 {
-    
+
     class figure
     {
     protected:
     public:
-        virtual void draw() const =0; //描画
-        virtual void move(int _x, int _y) =0; //現在位置から移動
-        virtual void jump(int _x,int _y) =0; //指定位置へ移動
-        
+        virtual void draw() const = 0; //描画
+        virtual void move(int _x, int _y) = 0; //現在位置から移動
+        virtual void jump(int _x, int _y) = 0; //指定位置へ移動
+
     };
-    
+
+    /*
     class Point : public figure
     {
     protected:
-        int x,y;
+        int x, y;
     public:
         void draw() const override;
         void move(int _x, int _y) override;
         void jump(int _x, int _y) override;
         Point();
     };
-    
+    */
+
     class Rect : public figure
     {
     private:
@@ -41,9 +43,9 @@ namespace mySDL
         Color c;
 
         Rect();
-        Rect(int x,int y, int w, int h);
-        Rect(int x,int y, int w, int h, Color color);
-        
+        Rect(int x, int y, int w, int h);
+        Rect(int x, int y, int w, int h, Color color);
+
         SDL_Rect GetRect() const
         {
             return s_rect;

@@ -2,14 +2,8 @@
 #include "Define.hpp"
 #include <cstdio>
 
-#pragma comment(lib, "SDL2.lib")
-#pragma comment(lib, "SDL2main.lib")
-#pragma comment(lib, "SDL2_image.lib")
-#pragma comment(lib, "SDL2_mixer.lib")
-#pragma comment(lib, "SDL2_ttf.lib")
-
 #include SDL2_path
-#include <SDL2_image/SDL_image.h>
+#include SDL2image_path
 #include SDL2ttf_path
 #include "Basesystem.hpp"
 #include "Make structs.hpp"

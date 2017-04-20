@@ -4,24 +4,25 @@
 #include SDL2_path
 #include "Draw.hpp"
 #include "Data class.hpp"
+#include "Make structs.hpp"
 
 namespace mySDL
 {
     Rect::Rect()
     :
-         s_rect((SDL_Rect){0,0,100,100}),
+         s_rect(makeRect(0,0,100,100)),
         c(Defines::White)
     {}
     
     Rect::Rect(int x,int y, int w, int h)
     :
-         s_rect((SDL_Rect){x,y,w,h}),
+         s_rect(makeRect(x,y,w,h)),
         c(Defines::White)
     {}
     
     Rect::Rect(int x,int y, int w, int h, Color color)
     :
-         s_rect((SDL_Rect){x,y,w,h}),
+         s_rect(makeRect(x,y,w,h)),
         c(color)
     {}
     
